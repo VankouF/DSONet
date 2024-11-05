@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FreeMotion: A Unified Framework for Number-free Text-to-Motion Synthesis</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Textual Decomposition Then Sub-motion-space Scattering for Open-Vocabulary Motion Generation</h1>
+          <!-- <div class="is-size-3 publication-authors">
+            UnderReview
+          </div> -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="">Ke Fan</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="">Jiangning Zhang</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="">Ran Yi</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Jingyu Gong</a><sup>1,4</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Yabiao Wang</a><sup>2,3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Yating Wang</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Xin Tan</a><sup>4</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Chengjie Wang</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Lizhuang Ma</a><sup>1,4</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Shanghai Jiao Tong University<sup>1</sup>, Tencent Youtu Lab<sup>2</sup>, Zhejiang University<sup>3</sup>, East China Normal University<sup>4</sup></span>
+            <!-- <span class="author-block"><sup>2</sup>Google Research</span> -->
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/VankouF/FreeMotion-Codes.git"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fas fa-database"></i>
+                </span>
+                <span>Data(Coming Soon)</span>
+                </a>
+              </span> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    
+        <!-- <center><h2 class="title is-3">Abstract</h2></center> -->
+    
+    <div class="hero-body has-text-centered">
+        <!-- <video poster="" id="tree" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/video/demo_teaser.mp4" type="video/mp4">
+        </video> -->
+      <div class="hero-body has-text-centered">
+          <img src = "./static/images/teaser.png" height="80%"></img><br>
+      </div>
+
+    <p>
+      Text-to-motion generation is a crucial task in computer vision, which generates the target 3D motion by the given text. The existing annotated datasets are limited in scale, resulting in most existing methods overfitting to the small datasets and unable to generalize to the motions of the open domain. Some methods attempt to solve the open-vocabulary motion generation problem by aligning to the CLIP space or using the Pretrain-then-Finetuning paradigm. However, the current annotated dataset's limited scale only allows them to achieve mapping from sub-text-space to sub-motion-space, instead of mapping between full-text-space and full-motion-space (full mapping), which is the key to attaining open-vocabulary motion generation. To this end, this paper proposes to leverage the atomic motion (simple body part motions over a short time period) as an intermediate representation, and leverage two orderly coupled steps, i.e., Textual Decomposition and Sub-motion-space Scattering, to address the full mapping problem. For Textual Decomposition, we design a fine-grained description conversion algorithm, and combine it with the generalization ability of a large language model to convert any given motion text into atomic texts. Sub-motion-space Scattering learns the compositional process from atomic motions to the target motions, to make the learned sub-motion-space scattered to form the full-motion-space. For a given motion of the open domain, it transforms the extrapolation into interpolation and thereby significantly improves generalization. Our network, DSO-Net, combines textual decomposition and sub-motion-space scattering to solve the open-vocabulary motion generation. Extensive experiments demonstrate that our DSO-Net achieves significant improvements over the state-of-the-art methods on open-vocabulary motion generation.
+    </p>
+    <br>
+    <!-- <div id="video-container">
+      <video id="video" muted controls playsinline>
+        <source src="./static/video/demo.mp4" type="video/mp4">
+      </video>
+      <span style="font-size:12px">* This video contains audio.</span>
+    </div> -->
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <center><h2 class="title is-3">Qualitative Results</h2></center><br>
+    <!-- <h3 class="title is-4">Reaction Generation</h2>
+      <p>
+        <b>We can fix the first motion as condition and generate different motion reactions under various text.</b>
+      </p>
+    <br> -->
+    <div class="columns is-centered">
+      <div class="column">
+        <div id="video-container">
+          <center><p>"Braced Hang Hop Left To Another Braced Hang"
+            "</p></center>
+          <video id="video" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i1-Braced Hang Hop Left To Another Braced Hang.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Start Breakdance Swipes Maneuver""</p></center>
+          <center><p><br /></p></center>
+          <video id="video" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i2-Start Breakdance Swipes Maneuver.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Capoeira Groundwork""</p></center>
+          <center><p><br /></p></center>
+          <video poster="" id="push" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i3-Capoeira Groundwork.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <center><p>"Cheering While Sitting With Low Enthusiasm"</p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i4-Cheering While Sitting With Low Enthusiasm.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Doing The Chicken Dance"</p></center>
+          <center><p><br /></p></center>
+          <video poster="" id="warmup" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i5-Doing The Chicken Dance.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Circle Crunch On Floor"</p></center>
+          <center><p><br /></p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i6-Circle Crunch On Floor.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <center><p>"Climbing A Rope With Hands"</p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i7-Climbing A Rope With Hands.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Crawling Forward"</p></center>
+          <video poster="" id="warmup" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i8-Crawling Forward.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Looking Over Object With Bow"</p></center>
+          <!-- <center><p><br /></p></center> -->
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i9-Looking Over Object With Bow.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <center><p>"Crouched Against Wall To Crouch Walk"</p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i10-Crouched Against Wall To Crouch Walk.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Crying And Rubbing Eyes"</p></center>
+          <video poster="" id="warmup" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i11-Crying And Rubbing Eyes.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Shot To The Chest And Backwards"</p></center>
+          <!-- <center><p><br /></p></center> -->
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i12-Shot To The Chest And Backwards.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <center><p>"Death Hit From The Back Falling On One Knee"</p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i13-Death Hit From The Back Falling On One Knee.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Dying Shot To The Chest Falling On Two Knees"</p></center>
+          <video poster="" id="warmup" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i14-Dying Shot To The Chest Falling On Two Knees.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Emerging Right From Cover To Aimed Rifle Walk"</p></center>
+          <!-- <center><p><br /></p></center> -->
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i15-Emerging Right From Cover To Aimed Rifle Walk.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <center><p>"Receiving A Football While Getting Tackled To The Ground"</p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i16-Receiving A Football While Getting Tackled To The Ground.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Kneeling In Prayer"</p></center>
+          <center><p><br /></p></center>
+          <video poster="" id="warmup" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i17-Kneeling In Prayer.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Dying From A Prone Position"</p></center>
+          <center><p><br /></p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i18-Dying From A Prone Position.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <center><p>"Sitting On A Toilet"</p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i19-Sitting On A Toilet.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Inspecting Upwards With Torch"</p></center>
+          <video poster="" id="warmup" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i20-Inspecting Upwards With Torch.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Running  Jump To Standing Idle"</p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i21-Running  Jump To Standing Idle.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <center><p>"Stumbling Over Crate"</p></center>
+          <center><p><br /></p></center>
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i22-Stumbling Over Crate.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Zombie Crawling Forward"</p></center>
+          <center><p><br /></p></center>
+          <video poster="" id="warmup" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i23-Zombie Crawling Forward.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <center><p>"Lifting Objects Over Head And Walking At The Same Time"</p></center>
+          <!-- <center><p><br /></p></center> -->
+          <video poster="" id="standing" autoplay controls muted loop playsinline height="40%">
+              <source src="./static/video/qualitative/i24-Lifting Objects Over Head And Walking At The Same Time.mp4#t=0.01"
+                      type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+
+
+
+    
+  </div>
+</section>
+
+<!-- <section class="section">
+  <div class="container is-max-desktop">
+    <center><h2 class="title is-3">Comparisons</h2></center><br>
+    <div class="content has-text-justified">
+      <p>
+        <b>We compare against Intergen for two person motion generation. The synthesized motion by our proposed method are more consistent with the description.</p></b> <br>
+      </p>
+      <div class="content has-text-centered">
+        <video id="replay-video"
+               controls
+               muted
+               preload
+               playsinline
+               width="100%">
+          <source src="./static/video/comparison/comparison.mp4#t=0.01"
+                  type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+   -->
+</section>
+
+<section class="section is-light is-small">
+  <div class="container is-max-desktop">
+    <center><h2 class="title is-3">Approach Overview</h2></center>
+    <div class="hero-body">
+      <a href="./static/images/model.png"><img src = "./static/images/model.png" height="100%"></img></href></a><br>
+    </div>
+  </div>
+    <!--/ Abstract. -->
+
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{,
+      title={Textual Decomposition Then Sub-motion-space Scattering for Open-Vocabulary Motion Generation}, 
+      author={Ke Fan, Jiangning Zhang, Ran Yi, Jingyu Gong, Yabiao Wang, Yating Wang, Xin Tan, Chengjie Wang, Lizhuang Ma},
+      year={2024},
+      eprint={},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="columns is-centered">
+    <div class="column is-8">
+      <div class="content">
+        <p>
+          This website is licensed under a <a rel="license"
+          href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+        Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+      <p>
+        Website source code based on the <a href="https://nerfies.github.io/"> Nerfies</a> project page. If you want to reuse their <a
+        href="https://github.com/nerfies/nerfies.github.io">source code</a>, please credit them appropriately.
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+</footer>
+
+<script>
+      var videoContainer = document.getElementById('video-container');
+      var video = document.getElementById('video');
+
+      var videoOffset = videoContainer.offsetTop;
+
+      window.addEventListener('scroll', function() {
+        var scrollPosition = window.scrollY || window.pageYOffset;
+
+        if (scrollPosition >= videoOffset) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    </script>
+
+</body>
+</html>
